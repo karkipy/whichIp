@@ -35,4 +35,6 @@ if [ $machine = "Mac" ]; then
 elif [ $machine = "Linux" ]; then
   getLinuxIp
   echo $RES
+else
+  echo 'No support for your device yet'
 fi
