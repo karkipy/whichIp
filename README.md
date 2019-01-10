@@ -10,7 +10,7 @@ Working in react-native, you may have multiple devices and the host for the devi
 
 ## Installation
 
-Manuall
+Manual
 
 ```bash
   git clone {this-repo}
@@ -29,6 +29,8 @@ Move the script to /usr/local/bin for global access
 ```
 
 ### or
+
+This does all the things above
 
 ```bash
 curl https://raw.githubusercontent.com/karkipy/ip/master/whichIp -o /usr/local/bin/whichIp && chmod +x /usr/local/bin/whichIp
