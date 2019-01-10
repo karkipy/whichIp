@@ -10,29 +10,29 @@ esac
 
 getMacIP() {
   CMD="ipconfig getifaddr en0"
-  OUTPUT=$(eval $CMD)
+  RES=$(eval $CMD)
 }
 
 
-getLinuxIp() {
-  CMD="ip addr show enp0s3 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1"
-  OUTPUT=$(eval $CMD)
-  first=192.168.
-  second=netmask
-  strindex() {
-    x="${1%%$2*}"
-    [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
+ getLinuxIp() {
+ CMD="ip route show"
+ OUTPUT=$(eval $CMD)
+ first=src
+ last=metric
+ strindex() {
+  x="${1%%$2*}"
+  [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
   }
   firstIndex=$(strindex "$OUTPUT" "$first")
-  secondIndex=$(strindex "$OUTPUT" "$second")
-  diff=$secondIndex-$firstIndex
+  shortOp=${OUTPUT:$firstIndex}
+  lastIndex=$(strindex "$shortOp" "$last")
+  RES=${shortOp:3:$lastIndex - 3}
 }
+
 if [ $machine = "Mac" ]; then
   getMacIP
-  echo $OUTPUT
+  echo $RES
 elif [ $machine = "Linux" ]; then
   getLinuxIp
-  echo $OUTPUT
-else
-  echo "No Support for your device"
+  echo $RES
 fi
