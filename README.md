@@ -8,7 +8,7 @@ Working in react-native, you may have multiple devices and the host for the devi
   ifconfig en0
 ```
 
-## Instatlation
+## Installation
 
 Manuall
 
