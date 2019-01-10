@@ -1,8 +1,4 @@
 #!/bin/bash
-# CMD="ipconfig getifaddr en0"
-# OUTPUT=$(eval $CMD)
-# echo $OUTPUT
-
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)     machine=Linux;;
@@ -11,4 +7,32 @@ case "${unameOut}" in
     MINGW*)     machine=MinGw;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-echo ${machine}
+
+getMacIP() {
+  CMD="ipconfig getifaddr en0"
+  OUTPUT=$(eval $CMD)
+}
+
+
+getLinuxIp() {
+  CMD="ip addr show enp0s3 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1"
+  OUTPUT=$(eval $CMD)
+  first=192.168.
+  second=netmask
+  strindex() {
+    x="${1%%$2*}"
+    [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
+  }
+  firstIndex=$(strindex "$OUTPUT" "$first")
+  secondIndex=$(strindex "$OUTPUT" "$second")
+  diff=$secondIndex-$firstIndex
+}
+if [ $machine = "Mac" ]; then
+  getMacIP
+  echo $OUTPUT
+elif [ $machine = "Linux" ]; then
+  getLinuxIp
+  echo $OUTPUT
+else
+  echo "No Support for your device"
+fi
