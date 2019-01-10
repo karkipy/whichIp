@@ -1,13 +1,14 @@
 #!/bin/bash
-CMD="ifconfig en0"
-OUTPUT=$(eval $CMD)
-first=192.168.
-second=netmask
-strindex() {
-  x="${1%%$2*}"
-  [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
-}
-firstIndex=$(strindex "$OUTPUT" "$first")
-secondIndex=$(strindex "$OUTPUT" "$second")
-diff=$secondIndex-$firstIndex
-echo ${OUTPUT:$firstIndex: $diff}
+# CMD="ipconfig getifaddr en0"
+# OUTPUT=$(eval $CMD)
+# echo $OUTPUT
+
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+echo ${machine}
