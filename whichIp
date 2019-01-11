@@ -29,12 +29,12 @@ getMacIP() {
   RES=${shortOp:3:$lastIndex - 3}
 }
 
-if [ $machine = "Mac" ]; then
-  getMacIP
-  echo $RES
-elif [ $machine = "Linux" ]; then
-  getLinuxIp
-  echo $RES
-else
-  echo 'No support for your device yet'
-fi
+  case "$machine" in
+  "Mac")    getMacIP
+            echo $RES
+    ;;
+  "Linux")  getLinuxIp
+            echo $RES
+        ;;
+    *) echo "No support for your device yet"
+ esac
